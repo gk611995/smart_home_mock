@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Icons.watch,
     Icons.router
   ];
-  bool isbuttonpressed= true;
+  bool isbuttonpressed = true;
   final titles = [
     'Light',
     'Refrigerator',
@@ -26,55 +26,74 @@ class _HomeScreenState extends State<HomeScreen> {
     'Watch',
     'Router'
   ];
+  bool pressed = true;
+  bool control = true;
+  List<double> _valuearray = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+  double _value = 0.0;
+  _setslidervalue(double value, index) =>
+      setState(() => _valuearray[index] = value);
+
+  void _setvalue(double value) => setState(() => _value = value);
 
   togglebutton() {
     setState(() {
-     this.isbuttonpressed = !this.isbuttonpressed; 
-     print(this.isbuttonpressed);
+      this.isbuttonpressed = !this.isbuttonpressed;
+      print(this.isbuttonpressed);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           title: Text("Home Control"),
         ),
         body: ListView(
           children: <Widget>[
             Padding(
-                padding: EdgeInsets.all(2.0),
+                padding: EdgeInsets.all(6.0),
                 child: Card(
                     color: Theme.of(context).primaryColor,
                     elevation: 3,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        new Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'General Control',
-                            style: TextStyle(color: Colors.white),
+                        Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: new Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'General Control',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ),
                         Expanded(
                             child: Container(
                           alignment: Alignment.centerRight,
                           child: Switch(
-                            value: true,
+                            activeColor: Colors.yellowAccent,
+                            value: control,
+                            onChanged: (value) {
+                              setState(() {
+                                control= !value;
+                              });
+                            },
                           ),
                         ))
                       ],
                     ))), //ro
             Padding(
-                padding: EdgeInsets.all(2.0),
+                padding: EdgeInsets.all(6.0),
                 child: Card(
                     color: Theme.of(context).primaryColor,
                     elevation: 3,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                     // mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Row(
+                          
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             new Align(
@@ -92,100 +111,158 @@ class _HomeScreenState extends State<HomeScreen> {
                                     'Test',
                                     style: TextStyle(color: Colors.white),
                                   ),
-                                  Container(
-                                      alignment: Alignment.centerRight,
-                                      child: Slider(
-                                        min: 0,
-                                        max: 40,
-                                        value: 20,
-                                      ))
+                                  Material(
+                                      color: Theme.of(context).primaryColor,
+                                      child: Container(
+                                          alignment: Alignment.centerRight,
+                                          child: Slider(
+                                              activeColor: Colors.blue,
+                                              inactiveColor: Colors.grey,
+                                              min: 0,
+                                              max: 100,
+                                              value: _value,
+                                              onChanged: _setvalue
+                                              //                onChanged: (double newValue) {
+                                              //   setState(() {
+                                              //     _value = newValue.round().toDouble();
+                                              //   });
+                                              // },
+                                              )))
                                 ])
                           ],
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             ButtonTheme(
                                 height: 30.0,
-                                minWidth: 20.0,
-                                child: OutlineButton(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                    color: Colors.white,
+                                minWidth: 1.0,
+                                child:  FlatButton(
+                                    //borderSide: BorderSide(color: Colors.grey),
+                                    //borderSide: BorderSide(color: Colors.grey),
+                                    color: pressed
+                                        ? Theme.of(context).primaryColor
+                                        : Colors.deepOrangeAccent,
                                     child: Icon(
-                                      Icons.wb_iridescent,
-                                      color: Colors.grey,
+                                      Icons.battery_charging_full,
+                                      color:
+                                          pressed ? Colors.grey : Colors.white,
                                     ),
-                                    onPressed: () {},
-                                    shape: CircleBorder())),
+                                    onPressed: () {
+                                      setState(() {
+                                        pressed = !pressed;
+                                      });
+                                    },
+                                    shape: CircleBorder(
+                                        side: BorderSide(color: Colors.grey)))),
                             ButtonTheme(
                                 height: 30.0,
-                                minWidth: 50.0,
-                               // buttonColor: Colors.red,
-                                child: OutlineButton(
-                                    splashColor: Colors.green,
-                                    highlightColor: Colors.blue,
-                                    borderSide: BorderSide(color: Colors.grey),
-                                    color: Colors.blue,
+                                minWidth: 1.0,
+                                // buttonColor: Colors.red,
+                                child: FlatButton(
+                                    //borderSide: BorderSide(color: Colors.grey),
+                                    //borderSide: BorderSide(color: Colors.grey),
+                                    color: pressed
+                                        ? Theme.of(context).primaryColor
+                                        : Colors.pinkAccent,
                                     child: Icon(
-                                      Icons.filter_drama,
-                                      color: Colors.grey,
+                                      Icons.nature,
+                                      color:
+                                          pressed ? Colors.grey : Colors.white,
                                     ),
-                                  onPressed:() => togglebutton(),
-
-                                    shape: CircleBorder())),
+                                    onPressed: () {
+                                      setState(() {
+                                        pressed = !pressed;
+                                      });
+                                    },
+                                    shape: CircleBorder(
+                                        side: BorderSide(color: Colors.grey)))),
                             ButtonTheme(
                                 height: 30.0,
-                                minWidth: 10.0,
-                                child: OutlineButton(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                    color: Colors.white,
-                                    child: Icon(
-                                      Icons.grain,
-                                      color: Colors.grey,
-                                    ),
-                                    onPressed: () {},
-                                    shape: CircleBorder())),
-                            ButtonTheme(
-                                height: 30.0,
-                                minWidth: 20.0,
-                                child: OutlineButton(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                    color: Colors.white,
+                                minWidth: 1.0,
+                                child: FlatButton(
+                                    //borderSide: BorderSide(color: Colors.grey),
+                                    //borderSide: BorderSide(color: Colors.grey),
+                                    color: pressed
+                                        ? Theme.of(context).primaryColor
+                                        : Colors.greenAccent,
                                     child: Icon(
                                       Icons.timelapse,
-                                      color: Colors.grey,
+                                      color:
+                                          pressed ? Colors.grey : Colors.white,
                                     ),
-                                    onPressed: () {},
-                                    shape: CircleBorder())),
-                                                                ButtonTheme(
+                                    onPressed: () {
+                                      setState(() {
+                                        pressed = !pressed;
+                                      });
+                                    },
+                                    shape: CircleBorder(
+                                        side: BorderSide(color: Colors.grey)))),
+                            ButtonTheme(
                                 height: 30.0,
-                                minWidth: 20.0,
-                                child: OutlineButton(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                    color: Colors.white,
+                                minWidth: 1.0,
+                                child: FlatButton(
+                                    //borderSide: BorderSide(color: Colors.grey),
+                                    //borderSide: BorderSide(color: Colors.grey),
+                                    color: pressed
+                                        ? Theme.of(context).primaryColor
+                                        : Colors.blueGrey,
+                                    child: Icon(
+                                      Icons.gamepad,
+                                      color:
+                                          pressed ? Colors.grey : Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        pressed = !pressed;
+                                      });
+                                    },
+                                    shape: CircleBorder(
+                                        side: BorderSide(color: Colors.grey)))),
+                            ButtonTheme(
+                                height: 30.0,
+                                minWidth: 1.0,
+                                child: FlatButton(
+                                    color: pressed
+                                        ? Theme.of(context).primaryColor
+                                        : Colors.indigo,
                                     child: Icon(
                                       Icons.flare,
-                                      color: Colors.grey,
+                                      color:
+                                          pressed ? Colors.grey : Colors.white,
                                     ),
-                                    onPressed: () {},
-                                    shape: CircleBorder())),
-                                                                ButtonTheme(
+                                    onPressed: () {
+                                       setState(() {
+                                        pressed = !pressed;
+                                      });
+                                    },
+                                    shape: CircleBorder(
+                                        side: BorderSide(color: Colors.grey)))),
+                            ButtonTheme(
                                 height: 30.0,
-                                minWidth: 20.0,
-                                child: OutlineButton(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                    color: Colors.white,
+                                minWidth: 1.0,
+                                child:  FlatButton(
+                                    color: pressed
+                                        ? Theme.of(context).primaryColor
+                                        : Colors.blueAccent,
                                     child: Icon(
-                                      Icons.space_bar,
-                                      color: Colors.grey,
+                                      Icons.local_florist,
+                                      color:
+                                          pressed ? Colors.grey : Colors.white,
                                     ),
-                                    onPressed: () {},
-                                    shape: CircleBorder())),
+                                    onPressed: () {
+                                       setState(() {
+                                        pressed = !pressed;
+                                      });
+                                    },
+                                    shape: CircleBorder(
+                                        side: BorderSide(color: Colors.grey)))),
                           ],
                         )
                       ],
                     ))),
             Container(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(6),
                 child: new GridView.count(
                   primary: false,
                   physics: ScrollPhysics(),
@@ -214,13 +291,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                 ),
-                                Container(
-                                    alignment: Alignment.centerRight,
-                                    child: Slider(
-                                      min: 0,
-                                      max: 40,
-                                      value: 20,
-                                    ))
+                                Material(
+                                    color: Theme.of(context).primaryColor,
+                                    child: Container(
+                                        alignment: Alignment.centerRight,
+                                        child: Slider(
+                                          min: 0,
+                                          max: 100,
+                                          activeColor: Colors.blue,
+                                          inactiveColor: Colors.grey,
+                                          value: _valuearray[index],
+                                          onChanged: (double value) =>
+                                              _setslidervalue(value, index),
+                                        )))
                               ],
                             ))); //robohash.org api provide you different images for any number you are giving
                   }),
@@ -237,33 +320,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ))
           ],
         ));
-
-    // body:  ListView(
-    //       scrollDirection: Axis.horizontal,
-    //       children: <Widget>[
-    //         _buildCarouselItem()
-    //         Container(
-    //           width: 160.0,
-    //           color: Colors.red,
-    //         ),
-    //         Container(
-    //           width: 160.0,
-    //           color: Colors.blue,
-    //         ),
-    //         Container(
-    //           width: 160.0,
-    //           color: Colors.green,
-    //         ),
-    //         Container(
-    //           width: 160.0,
-    //           color: Colors.yellow,
-    //         ),
-    //         Container(
-    //           width: 160.0,
-    //           color: Colors.orange,
-    //         ),
-    //       ],
-    //     ),
   }
 
   Widget _buildCarousel(BuildContext context) {
