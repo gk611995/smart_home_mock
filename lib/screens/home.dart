@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,6 +18,23 @@ class _HomeScreenState extends State<HomeScreen> {
     Icons.watch,
     Icons.router
   ];
+  final listIcons =[
+    Icons.wb_iridescent,
+    Icons.local_hotel,
+    Icons.satellite,
+    Icons.snooze,
+    Icons.ac_unit,
+    Icons.opacity,
+    Icons.language
+  ];
+  final iconColors = [
+    Colors.redAccent,
+    Colors.greenAccent,
+    Colors.cyanAccent,
+    Colors.yellowAccent,
+    Colors.pink,
+    Colors.amberAccent
+  ];
   bool isbuttonpressed = true;
   final titles = [
     'Light',
@@ -26,12 +44,13 @@ class _HomeScreenState extends State<HomeScreen> {
     'Watch',
     'Router'
   ];
+  final iconPressed = [false, false, false, false, false, false];
   bool pressed = true;
   bool control = true;
-  List<double> _valuearray = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+  List<double> valuearray = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
   double _value = 0.0;
   _setslidervalue(double value, index) =>
-      setState(() => _valuearray[index] = value);
+      setState(() => valuearray[index] = value);
 
   void _setvalue(double value) => setState(() => _value = value);
 
@@ -39,6 +58,29 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       this.isbuttonpressed = !this.isbuttonpressed;
       print(this.isbuttonpressed);
+    });
+  }
+
+  List<Widget> getlist() {
+    return List.generate(6, (index) {
+      return ButtonTheme(
+          height: 30.0,
+          minWidth: 1.0,
+          child: FlatButton(
+
+              color: iconPressed[index]
+                  ? Theme.of(context).primaryColor
+                  :iconColors[index],
+              child: Icon(
+                listIcons[index],
+                color: iconPressed[index] ? Colors.grey : Colors.white,
+              ),
+              onPressed: () {
+                setState(() {
+                  iconPressed[index] = !iconPressed[index];
+                });
+              },
+              shape: CircleBorder(side: BorderSide(color: Colors.grey))));
     });
   }
 
@@ -52,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: ListView(
           children: <Widget>[
             Padding(
-                padding: EdgeInsets.all(6.0),
+                padding:  EdgeInsets.fromLTRB(6,12,6,6),
                 child: Card(
                     color: Theme.of(context).primaryColor,
                     elevation: 3,
@@ -77,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             value: control,
                             onChanged: (value) {
                               setState(() {
-                                control= !value;
+                                control = !value;
                               });
                             },
                           ),
@@ -85,15 +127,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ))), //ro
             Padding(
-                padding: EdgeInsets.all(6.0),
+                padding:  EdgeInsets.fromLTRB(6,0,6,6),
                 child: Card(
                     color: Theme.of(context).primaryColor,
                     elevation: 3,
                     child: Column(
-                     // mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Row(
-                          
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             new Align(
@@ -107,10 +147,22 @@ class _HomeScreenState extends State<HomeScreen> {
                             Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
-                                  Text(
-                                    'Test',
+                                  Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                  child:Text(
+                                    'TV',
                                     style: TextStyle(color: Colors.white),
                                   ),
+                                  ),
+                                                Container(
+                                  padding: EdgeInsets.only(top: 15.0),
+                                  child: new Center(
+                                    child: new Text(
+                                      _value.round().toString() +"%",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
                                   Material(
                                       color: Theme.of(context).primaryColor,
                                       child: Container(
@@ -122,147 +174,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                               max: 100,
                                               value: _value,
                                               onChanged: _setvalue
-                                              //                onChanged: (double newValue) {
-                                              //   setState(() {
-                                              //     _value = newValue.round().toDouble();
-                                              //   });
-                                              // },
                                               )))
                                 ])
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            ButtonTheme(
-                                height: 30.0,
-                                minWidth: 1.0,
-                                child:  FlatButton(
-                                    //borderSide: BorderSide(color: Colors.grey),
-                                    //borderSide: BorderSide(color: Colors.grey),
-                                    color: pressed
-                                        ? Theme.of(context).primaryColor
-                                        : Colors.deepOrangeAccent,
-                                    child: Icon(
-                                      Icons.battery_charging_full,
-                                      color:
-                                          pressed ? Colors.grey : Colors.white,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        pressed = !pressed;
-                                      });
-                                    },
-                                    shape: CircleBorder(
-                                        side: BorderSide(color: Colors.grey)))),
-                            ButtonTheme(
-                                height: 30.0,
-                                minWidth: 1.0,
-                                // buttonColor: Colors.red,
-                                child: FlatButton(
-                                    //borderSide: BorderSide(color: Colors.grey),
-                                    //borderSide: BorderSide(color: Colors.grey),
-                                    color: pressed
-                                        ? Theme.of(context).primaryColor
-                                        : Colors.pinkAccent,
-                                    child: Icon(
-                                      Icons.nature,
-                                      color:
-                                          pressed ? Colors.grey : Colors.white,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        pressed = !pressed;
-                                      });
-                                    },
-                                    shape: CircleBorder(
-                                        side: BorderSide(color: Colors.grey)))),
-                            ButtonTheme(
-                                height: 30.0,
-                                minWidth: 1.0,
-                                child: FlatButton(
-                                    //borderSide: BorderSide(color: Colors.grey),
-                                    //borderSide: BorderSide(color: Colors.grey),
-                                    color: pressed
-                                        ? Theme.of(context).primaryColor
-                                        : Colors.greenAccent,
-                                    child: Icon(
-                                      Icons.timelapse,
-                                      color:
-                                          pressed ? Colors.grey : Colors.white,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        pressed = !pressed;
-                                      });
-                                    },
-                                    shape: CircleBorder(
-                                        side: BorderSide(color: Colors.grey)))),
-                            ButtonTheme(
-                                height: 30.0,
-                                minWidth: 1.0,
-                                child: FlatButton(
-                                    //borderSide: BorderSide(color: Colors.grey),
-                                    //borderSide: BorderSide(color: Colors.grey),
-                                    color: pressed
-                                        ? Theme.of(context).primaryColor
-                                        : Colors.blueGrey,
-                                    child: Icon(
-                                      Icons.gamepad,
-                                      color:
-                                          pressed ? Colors.grey : Colors.white,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        pressed = !pressed;
-                                      });
-                                    },
-                                    shape: CircleBorder(
-                                        side: BorderSide(color: Colors.grey)))),
-                            ButtonTheme(
-                                height: 30.0,
-                                minWidth: 1.0,
-                                child: FlatButton(
-                                    color: pressed
-                                        ? Theme.of(context).primaryColor
-                                        : Colors.indigo,
-                                    child: Icon(
-                                      Icons.flare,
-                                      color:
-                                          pressed ? Colors.grey : Colors.white,
-                                    ),
-                                    onPressed: () {
-                                       setState(() {
-                                        pressed = !pressed;
-                                      });
-                                    },
-                                    shape: CircleBorder(
-                                        side: BorderSide(color: Colors.grey)))),
-                            ButtonTheme(
-                                height: 30.0,
-                                minWidth: 1.0,
-                                child:  FlatButton(
-                                    color: pressed
-                                        ? Theme.of(context).primaryColor
-                                        : Colors.blueAccent,
-                                    child: Icon(
-                                      Icons.local_florist,
-                                      color:
-                                          pressed ? Colors.grey : Colors.white,
-                                    ),
-                                    onPressed: () {
-                                       setState(() {
-                                        pressed = !pressed;
-                                      });
-                                    },
-                                    shape: CircleBorder(
-                                        side: BorderSide(color: Colors.grey)))),
-                          ],
-                        )
+                        Row(children: getlist())
+ 
                       ],
                     ))),
             Container(
-                padding: EdgeInsets.all(6),
+                padding: EdgeInsets.fromLTRB(6,0,6,6),
                 child: new GridView.count(
                   primary: false,
                   physics: ScrollPhysics(),
@@ -273,6 +194,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     return Padding(
                         padding: EdgeInsets.all(2.0),
                         child: Card(
+                          shape:RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ) ,
                             color: Theme.of(context).primaryColor,
                             elevation: 3,
                             child: Column(
@@ -283,10 +207,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Icon(icons[index], color: Colors.white),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.only(top: 15.0),
+                                  padding: EdgeInsets.only(top: 10.0),
                                   child: new Center(
                                     child: new Text(
                                       titles[index],
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                                                Container(
+                                  padding: EdgeInsets.only(top: 15.0),
+                                  child: new Center(
+                                    child: new Text(
+                                      valuearray[index].round().toString() +"%",
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ),
@@ -300,57 +233,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                           max: 100,
                                           activeColor: Colors.blue,
                                           inactiveColor: Colors.grey,
-                                          value: _valuearray[index],
+                                          value: valuearray[index],
                                           onChanged: (double value) =>
                                               _setslidervalue(value, index),
                                         )))
                               ],
                             ))); //robohash.org api provide you different images for any number you are giving
                   }),
-                  // return new GridTile(
-                  //   child:
-
-                  //    new Card(
-                  //     color: Colors.blue.shade200,
-                  //     child: new Center(
-                  //       child: new Text('tile $index'),
-                  //     )
-                  //   ),
-                  // );
                 ))
           ],
         ));
-  }
-
-  Widget _buildCarousel(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        SizedBox(
-          // you may want to use an aspect ratio here for tablet support
-          height: 200.0,
-          child: PageView.builder(
-            itemCount: 4,
-            // store this controller in a State to save the carousel scroll position
-            controller: PageController(viewportFraction: 0.8),
-            itemBuilder: (BuildContext context, int itemIndex) {
-              return _buildCarouselItem(context, itemIndex);
-            },
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget _buildCarouselItem(BuildContext context, int itemIndex) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.blueAccent,
-          borderRadius: BorderRadius.all(Radius.circular(4.0)),
-        ),
-      ),
-    );
   }
 }
