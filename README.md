@@ -1,16 +1,7 @@
 # smart_home
 
-A new Flutter project.
+A smart home design implementation in Flutter inspired from dribble.
 
-## Getting Started
+Design link:
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+https://dribbble.com/shots/5309687-Smart-Home?utm_source=Clipboard_Shot&utm_campaign=fanliyong&utm_content=Smart%20Home&utm_medium=Social_Share
